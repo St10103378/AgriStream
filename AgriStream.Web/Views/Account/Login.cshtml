@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+<p>Uses Azure SQL Database for user accounts and roles (Farmer, Agronomist, Admin).</p>
+
+<form asp-action="Login" method="post">
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>

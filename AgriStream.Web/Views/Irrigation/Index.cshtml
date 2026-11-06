@@ -1,0 +1,14 @@
+@{
+    ViewData["Title"] = "Trigger Irrigation";
+}
+
+<h2>Trigger Irrigation</h2>
+<p>This action calls the <strong>HTTP POST</strong> Azure Function which places a message on the <code>irrigation-commands</code> Storage Queue. The <strong>Queue-Triggered Function</strong> then updates the device status in Azure SQL Database.</p>
+
+<form asp-action="Trigger" method="post">
+    <div class="mb-3">
+        <label class="form-label">Device ID</label>
+        <input type="text" name="deviceId" class="form-control" placeholder="e.g. IRRIG-101" required />
+    </div>
+    <button type="submit" class="btn btn-warning">Trigger Irrigation</button>
+</form>

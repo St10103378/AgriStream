@@ -1,0 +1,80 @@
+
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Field Dashboard";
+
+    var telemetryJson = ViewBag.TelemetryJson as string ?? "[]";
+}
+
+<h2>Field Dashboard</h2>
+
+<p>@ViewBag.Message</p>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        Telemetry error: @ViewBag.Error
+    </div>
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <h4>Latest Sensor Readings</h4>
+    <button class="btn btn-primary"
+            onclick="location.reload()">
+        Refresh
+    </button>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Device ID</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Soil Moisture</th>
+                <th>Recorded At</th>
+            </tr>
+        </thead>
+
+        <tbody id="telemetryTable"></tbody>
+    </table>
+</div>
+
+@section Scripts {
+<script>
+    const telemetry = @Html.Raw(telemetryJson);
+
+    const table = document.getElementById("telemetryTable");
+
+    if (!telemetry || telemetry.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center">
+                    No telemetry records available.
+                </td>
+            </tr>`;
+    } else {
+        telemetry.forEach(item => {
+            const row = document.createElement("tr");
+
+            const values = [
+                item.deviceId ?? item.DeviceId ?? "N/A",
+                item.temperature ?? item.Temperature ?? "N/A",
+                item.humidity ?? item.Humidity ?? "N/A",
+                item.soilMoisture ?? item.SoilMoisture ?? "N/A",
+                item.recordedAt ?? item.RecordedAt ?? "N/A"
+            ];
+
+            values.forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                row.appendChild(cell);
+            });
+
+            table.appendChild(row);
+        });
+    }
+</script>
+}
